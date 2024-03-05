@@ -1,16 +1,10 @@
 /*----------------------------------------------------------------------------
- * Name:    test_CAN1.c
- * Note : mettre un autre noeud CAN sur le rÈseau en mode silence pour les tests (voir silence.c) 
- * Purpose: CAN Transmiter for STM32F746G-Discovery
+ * Name:  test_CAN1.c
+ * Note : mettre un autre noeud CAN sur le reseau en mode silence pour les tests (voir silence.c) 
+ * Utilis√© sur STM32F746G-Discovery : objet 0 pour r√©ception, objet 2 pour √©mission
+ * Maj 5/03/2024 - XM
  *----------------------------------------------------------------------------
- * This file is part of the uVision/ARM development tools.
- * This software may only be used under the terms of a valid, current,
- * end user licence from KEIL for a compatible version of KEIL software
- * development tools. Nothing else gives you the right to use this software.
- *
- * This software is supplied "AS IS" without warranties of any kind.
- *
- * Copyright (c) 2004-2015 Keil - An ARM Company. All rights reserved.
+ * Code d√©velopp√© √† partir de sources fournies par Keil uVision/ARM development tools.
  *----------------------------------------------------------------------------*/
 
 #include "stm32f7xx_hal.h"
@@ -139,7 +133,7 @@ static void CPU_CACHE_Enable (void) {
   SCB_EnableDCache();
 }
 
-// CAN1 utilisÈ pour rÈception, Objet 0 pour RX, Objet 2 pour TX
+// CAN1 utilise pour reception, Objet 0 pour RX, Objet 2 pour TX
 void InitCan1 (void) {
 	/*
 	// Pour test des "Capabilities" du controleur
@@ -155,7 +149,7 @@ void InitCan1 (void) {
 	
 	// Recherche des objets pour emission et recep
 	for (i = 0U; i < num_objects; i++) {                                          // Find first available object for receive and transmit
-    can_obj_cap = Driver_CAN1.ObjectGetCapabilities (i);                            // Get object capabilities
+    can_obj_cap = Driver_CAN1.ObjectGetCapabilities (i);                        // Get object capabilities
     if      ((rx_obj_idx == 0xFFFFFFFFU) && (can_obj_cap.rx == 1U)) { rx_obj_idx = i; }
     else if ((tx_obj_idx == 0xFFFFFFFFU) && (can_obj_cap.tx == 1U)) { tx_obj_idx = i; break; }
   }
@@ -172,12 +166,12 @@ void InitCan1 (void) {
 							ARM_CAN_BIT_PHASE_SEG1(1U) |         // Set phase segment 1 to 1 time quantum (sample point at 87.5% of bit time)
 							ARM_CAN_BIT_PHASE_SEG2(1U) |         // Set phase segment 2 to 1 time quantum (total bit is 8 time quanta long)
 							ARM_CAN_BIT_SJW(1U));                // Resynchronization jump width is same as phase segment 2
-	// Mettre ici les filtres ID de rÈception sur objet 0
+	// Mettre ici les filtres ID de rÔøΩception sur objet 0
 	Driver_CAN1.ObjectSetFilter(0,ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_STANDARD_ID(0x5f8),0);
 	Driver_CAN1.ObjectSetFilter(0,ARM_CAN_FILTER_ID_EXACT_ADD, ARM_CAN_STANDARD_ID(0x5f9),0);
 	
-	Driver_CAN1.ObjectConfigure(0,ARM_CAN_OBJ_RX);				// Objet 0 du CAN1 pour rÈception
-	Driver_CAN1.ObjectConfigure(2,ARM_CAN_OBJ_TX);				// Objet 2 du CAN1 pour Èmission
+	Driver_CAN1.ObjectConfigure(0,ARM_CAN_OBJ_RX);				// Objet 0 du CAN1 pour reception
+	Driver_CAN1.ObjectConfigure(2,ARM_CAN_OBJ_TX);				// Objet 2 du CAN1 pour emission
 	
 	Driver_CAN1.SetMode(ARM_CAN_MODE_NORMAL);					// fin init
 }
@@ -196,7 +190,7 @@ void CANthreadT(void const *argument)
 
 		// Parametres Trame 1 CAN a envoyer (Controleur CAN 1)
 		tx_msg_info.id = ARM_CAN_STANDARD_ID(0x0f6);   /* pour regime + vitesse   */
-		for (i = 0; i < 8; i++) data_buf[i] = 0;	// mise ‡ zÈro zone de data
+		for (i = 0; i < 8; i++) data_buf[i] = 0;	// mise ÔøΩ zÔøΩro zone de data
 		data_buf[0] = 0x20;        
 		data_buf[1] = 0x02;         	   
 		data_buf[2] = 0x03;       
@@ -208,7 +202,7 @@ void CANthreadT(void const *argument)
 		
 		// Parametres Trame 2 CAN a envoyer (Controleur CAN 1)
 		tx_msg_info.id = ARM_CAN_STANDARD_ID(0x128);   /* pour carburant   */
-		for (i = 0; i < 8; i++) data_buf[i] = 0;	// mise ‡ zÈro zone de data
+		for (i = 0; i < 8; i++) data_buf[i] = 0;	// mise ÔøΩ zÔøΩro zone de data
 		data_buf[0] = 0x40;           		
 		Driver_CAN1.MessageSend(2, &tx_msg_info, data_buf, 1);   // Envoie trame avec 1 data par buffer 2 du CAN1	
 		osSignalWait(0x02, osWaitForever);		// sommeil en attente fin emission
@@ -227,13 +221,13 @@ void CANthreadR(void const *argument)
 	
 		while(1)
 	{		
-		osSignalWait(0x04, osWaitForever);		// sommeil en attente rÈception CAN
+		osSignalWait(0x04, osWaitForever);		// sommeil en attente rÔøΩception CAN
 		
 		// Reception trames CAN 
 		Driver_CAN1.MessageRead(0, &rx_msg_info, data_buf, 8);	// 8 data max
 
 		identifiant = rx_msg_info.id;	// recup id
-		data_reception = data_buf [0] ;			// 1Ëre donnÈe de la trame rÈcupÈrÈe
+		data_reception = data_buf [0] ;			// 1ÔøΩre donnÔøΩe de la trame rÔøΩcupÔøΩrÔøΩe
 		
 		// Allumage/Extinction LED
 		switch (identifiant)
@@ -265,12 +259,11 @@ int main (void) {
 
   SystemClock_Config();                     /* Configure the System Clock     */
 	
-  InitCan1();
+  InitCan1();                               /* A mettre APRES init des horloges sinon pb     */
 		
   LED_Initialize();                         /* LED Initialization             */
 
   id_CANthreadT = osThreadCreate (osThread(CANthreadT), NULL);
-	//id_CANthreadR = osThreadCreate (osThread(CANthreadR), NULL);
 
   osKernelStart();                          /* start thread execution         */
 
