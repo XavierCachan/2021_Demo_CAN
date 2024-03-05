@@ -1,7 +1,9 @@
 /*----------------------------------------------------------------------------
  * Name:  test_CAN1.c
- * Note : mettre un autre noeud CAN sur le reseau en mode silence pour les tests (voir silence.c) 
- * Utilisé sur STM32F746G-Discovery : objet 0 pour réception, objet 2 pour émission
+ * Notes : mettre un autre noeud CAN sur le reseau en mode silence pour les tests (voir silence.c) 
+ * Periphérique CAN 1 : 1 thread R sur objet 0, 1 thread T sur objet 2
+ * Réception uniquement des trames ID 0x5F8 et 0x5F9
+ * STM32F746G-Discovery
  * Maj 5/03/2024 - XM
  *----------------------------------------------------------------------------
  * Code développé à partir de sources fournies par Keil uVision/ARM development tools.
@@ -14,8 +16,6 @@
 #include "RTE_Components.h"
 #include "Driver_CAN.h"                 // ::CMSIS Driver:CAN
 
-
-
 osThreadId id_CANthreadR;
 osThreadId id_CANthreadT;
 
@@ -24,17 +24,29 @@ extern   ARM_DRIVER_CAN         Driver_CAN1;
 // CAN1 callback
 void myCAN1_callback(uint32_t obj_idx, uint32_t event)
 {
+    if (event&ARM_CAN_EVENT_RECEIVE)
+      {
+        osSignalSet(id_CANthreadR, 0x04);
+      }
+    if (event&ARM_CAN_EVENT_SEND_COMPLETE)
+      {
+        osSignalSet(id_CANthreadT, 0x02);
+      }
+
+/*----------------------------------------------------------------------------
+* Version en switch
     switch (event)
     {
     case ARM_CAN_EVENT_RECEIVE:
-        /*  Message was received successfully by the obj_idx object. */
+        //  Message was received successfully by the obj_idx object.
        osSignalSet(id_CANthreadR, 0x04);
         break;
 		case ARM_CAN_EVENT_SEND_COMPLETE:
-        /* 	Message was sent successfully by the obj_idx object.  */
+        // 	Message was sent successfully by the obj_idx object.
         osSignalSet(id_CANthreadT, 0x02);
         break;
     }
+ *----------------------------------------------------------------------------*/
 }
 
 
@@ -135,8 +147,8 @@ static void CPU_CACHE_Enable (void) {
 
 // CAN1 utilise pour reception, Objet 0 pour RX, Objet 2 pour TX
 void InitCan1 (void) {
-	/*
-	// Pour test des "Capabilities" du controleur
+	
+	/* Pour test des "Capabilities" du controleur -> recherche des objets R et T
 	ARM_CAN_CAPABILITIES     can_cap;
   ARM_CAN_OBJ_CAPABILITIES can_obj_cap;
   int32_t                  status;
@@ -176,7 +188,7 @@ void InitCan1 (void) {
 	Driver_CAN1.SetMode(ARM_CAN_MODE_NORMAL);					// fin init
 }
 
-// tache envoi toutes les secondes
+// thread T toutes les secondes
 void CANthreadT(void const *argument)
 {
 	ARM_CAN_MSG_INFO                tx_msg_info;
@@ -185,7 +197,6 @@ void CANthreadT(void const *argument)
 	
 	while (1) {
 		
-		// envoi
 		// envoie de 2 trames CAN d'info
 
 		// Parametres Trame 1 CAN a envoyer (Controleur CAN 1)
@@ -206,12 +217,14 @@ void CANthreadT(void const *argument)
 		data_buf[0] = 0x40;           		
 		Driver_CAN1.MessageSend(2, &tx_msg_info, data_buf, 1);   // Envoie trame avec 1 data par buffer 2 du CAN1	
 		osSignalWait(0x02, osWaitForever);		// sommeil en attente fin emission
-		LED_On(0);
+		
+    LED_On(0);      // pour observation envoi ok
+
 		osDelay(500);;	// pour laisser le temps au niveau de la reception
 	}		
 }
 
-// tache reception
+// thread R
 void CANthreadR(void const *argument)
 {
 	ARM_CAN_MSG_INFO   rx_msg_info;
@@ -221,15 +234,15 @@ void CANthreadR(void const *argument)
 	
 		while(1)
 	{		
-		osSignalWait(0x04, osWaitForever);		// sommeil en attente r�ception CAN
+		osSignalWait(0x04, osWaitForever);		// sommeil en attente reception CAN
 		
 		// Reception trames CAN 
 		Driver_CAN1.MessageRead(0, &rx_msg_info, data_buf, 8);	// 8 data max
 
 		identifiant = rx_msg_info.id;	// recup id
-		data_reception = data_buf [0] ;			// 1�re donn�e de la trame r�cup�r�e
+		data_reception = data_buf [0] ;			// 1ère donnée de la trame récupérée
 		
-		// Allumage/Extinction LED
+		// Allumage LED
 		switch (identifiant)
 			{
 			case 0x5f8 :	LED_On(1);
@@ -250,20 +263,17 @@ osThreadDef(CANthreadT,osPriorityNormal, 1,0);
 int main (void) {
 
   MPU_Config();                             /* Configure the MPU              */
-
   CPU_CACHE_Enable();                       /* Enable the CPU Cache           */
 
   osKernelInitialize();                     /* initialize CMSIS-RTOS          */
 
   HAL_Init();                               /* Initialize the HAL Library     */
-
   SystemClock_Config();                     /* Configure the System Clock     */
-	
   InitCan1();                               /* A mettre APRES init des horloges sinon pb     */
-		
   LED_Initialize();                         /* LED Initialization             */
 
   id_CANthreadT = osThreadCreate (osThread(CANthreadT), NULL);
+  id_CANthreadR = osThreadCreate (osThread(CANthreadR), NULL);
 
   osKernelStart();                          /* start thread execution         */
 
