@@ -1,0 +1,26 @@
+--cpu Cortex-M7.fp.sp
+".\flash\test_can1.o"
+".\flash\led_746g_discovery.o"
+"C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0_new_version\CMSIS\RTOS\RTX\LIB\ARM\RTX_CM4.lib"
+".\flash\rtx_conf_cm.o"
+".\flash\can_stm32f7xx.o"
+".\flash\stm32f7xx_hal.o"
+".\flash\stm32f7xx_hal_adc.o"
+".\flash\stm32f7xx_hal_adc_ex.o"
+".\flash\stm32f7xx_hal_can.o"
+".\flash\stm32f7xx_hal_cortex.o"
+".\flash\stm32f7xx_hal_dma.o"
+".\flash\stm32f7xx_hal_dma_ex.o"
+".\flash\stm32f7xx_hal_gpio.o"
+".\flash\stm32f7xx_hal_i2c.o"
+".\flash\stm32f7xx_hal_i2c_ex.o"
+".\flash\stm32f7xx_hal_pwr.o"
+".\flash\stm32f7xx_hal_pwr_ex.o"
+".\flash\stm32f7xx_hal_rcc.o"
+".\flash\stm32f7xx_hal_rcc_ex.o"
+".\flash\startup_stm32f756xx.o"
+".\flash\system_stm32f7xx.o"
+--strict --scatter ".\Flash\Blinky.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Flash\Blinky.map" -o .\Flash\Blinky.axf

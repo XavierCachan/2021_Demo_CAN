@@ -1,0 +1,12 @@
+The CAN project is a simple CMSIS RTOS based example for
+ST 'STM32F746NG' microcontroller using ST 'STM32F746G-Discovery' Kit.
+Compliant to Cortex Microcontroller Software Interface Standard (CMSIS v2.0).
+
+Maj 03/02/2021, X. Mininger
+
+Example functionality:
+ - Clock Settings:
+   - XTAL    =            25.00 MHz
+   - SYSCLK  =           216.00 MHz
+
+ - Envoi de 2 trames de data en continu sur CAN1, avec Id 0x3e1 et 0x161

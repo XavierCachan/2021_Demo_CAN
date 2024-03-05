@@ -1,0 +1,170 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.17.0.0
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: XM XM, a, LIC=MGX56-DH2J6-GNKA5-GM23Z-UAXNZ-IWDWA
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.17
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 1 (build 61)
+Assembler:       Armasm.exe V5.06 update 1 (build 61)
+Linker/Locator:  ArmLink.exe V5.06 update 1 (build 61)
+Library Manager: ArmAr.exe V5.06 update 1 (build 61)
+Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
+CPU DLL:         SARMCM3.DLL V5.17
+Dialog DLL:      DCM.DLL V1.13.4.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
+Dialog DLL:      TCM.DLL V1.14.6.0
+ 
+<h2>Project:</h2>
+K:\Documents\Dropbox\Keil\IT2R\Projet\STM32F7\Release\2021_Demo_CAN\Blinky.uvprojx
+Project File Date:  02/04/2021
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'STM32F756 Flash'
+compiling test_CAN1.c...
+test_CAN1.c(225): warning:  #550-D: variable "data_reception" was set but never used
+  	char data_reception;
+test_CAN1.c: 1 warning, 0 errors
+linking...
+Program Size: Code=17024 RO-data=744 RW-data=88 ZI-data=11752  
+".\Flash\Blinky.axf" - 0 Error(s), 1 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.6.0.pack
+                ::CMSIS Driver:CAN:1.2.0 (API)
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CAN Version: 1.2.0
+   * Component: RTOS Version: 1.0.0
+   * Component: CORE Version: 5.3.0
+   * Component: Keil RTX Version: 4.82.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.MDK-Middleware.7.0.0.pack
+                ::Board Support:LED:1.00 (API)
+                Keil MDK-ARM Professional Middleware for ARM Cortex-M based devices
+   * Component: LED Version: 1.00
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F7xx_DFP.2.9.0.pack
+                Keil::Device:Startup:1.2.0
+                STMicroelectronics STM32F7 Series Device Support, Drivers and Examples
+   * Component: Startup Version: 1.2.0
+   * Component: Classic Version: 1.2.0
+   * Component: STM32Cube Framework Version: 1.0.0
+   * Component: ADC Version: 1.2.0
+   * Component: I2C Version: 1.2.0
+   * Component: CAN Version: 1.2.0
+   * Component: GPIO Version: 1.2.0
+   * Component: RCC Version: 1.2.0
+   * Component: Common Version: 1.2.0
+   * Component: Cortex Version: 1.2.0
+   * Component: PWR Version: 1.2.0
+   * Component: DMA Version: 1.2.0
+   * Component: CAN Version: 1.6.0
+   * Component: LED Version: 1.1.1
+
+<h2>Collection of Component include folders:</h2>
+  K:\Documents\Dropbox\Keil\IT2R\Projet\STM32F7\Release\2021_Demo_CAN\RTE
+  K:\Documents\Dropbox\Keil\IT2R\Projet\STM32F7\Release\2021_Demo_CAN\RTE\Device\STM32F756NGHx
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0_new_version\CMSIS\Core\Include
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0_new_version\CMSIS\Driver\Include
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0_new_version\CMSIS\RTOS\RTX\INC
+  C:\Keil_v5\ARM\PACK\Keil\MDK-Middleware\7.0.0\Board
+  C:\Keil_v5\ARM\PACK\Keil\STM32F7xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F7xx\Include
+  C:\Keil_v5\ARM\PACK\Keil\STM32F7xx_DFP\2.9.0\Drivers\STM32F7xx_HAL_Driver\Inc
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ::CMSIS Driver:CAN:1.2.0 (API)
+      Include file:  CMSIS\Driver\Include\Driver_CAN.h
+
+   * Component: ::CMSIS:RTOS:1.0.0 (API)
+
+   * Component: ARM::CMSIS:CORE:5.3.0
+
+   * Component: ARM::CMSIS:RTOS:Keil RTX:4.82.0
+      Include file:  CMSIS\RTOS\RTX\INC\cmsis_os.h
+      Source file:   CMSIS\RTOS\RTX\Templates\RTX_Conf_CM.c
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\main.c
+      Include file:  CMSIS\RTOS\RTX\UserCodeTemplates\osObjects.h
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MemPool.c
+      Library file:  CMSIS\RTOS\RTX\LIB\ARM\RTX_CM4.lib
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Timer.c
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Semaphore.c
+      Source file:   CMSIS\RTOS\RTX\SRC\ARM\SVC_Table.s
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MailQueue.c
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\MsgQueue.c
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Mutex.c
+      Source file:   CMSIS\RTOS\RTX\UserCodeTemplates\Thread.c
+
+   * Component: ::Board Support:LED:1.00 (API)
+      Include file:  Board\Board_LED.h
+
+   * Component: Keil::Device:Startup:1.2.0
+      Source file:   MDK\Device\Source\ARM\STM32F7xx_OPT.s
+      Include file:  Drivers\CMSIS\Device\ST\STM32F7xx\Include\stm32f7xx.h
+      Source file:   MDK\Device\Source\ARM\STM32F7xx_OTP.s
+      Source file:   Drivers\CMSIS\Device\ST\STM32F7xx\Source\Templates\arm\startup_stm32f756xx.s
+      Source file:   Drivers\CMSIS\Device\ST\STM32F7xx\Source\Templates\system_stm32f7xx.c
+
+   * Component: Keil::Device:STM32Cube Framework:Classic:1.2.0
+      Include file:  MDK\Templates\Inc\stm32f7xx_hal_conf.h
+      Source file:   MDK\Templates\Src\stm32f7xx_hal_msp.c
+      Include file:  CMSIS\Driver\Config\RTE_Device.h
+      Include file:  MDK\Templates\Inc\stm32f7xx_it.h
+      Source file:   MDK\Templates\Src\main.c
+      Include file:  MDK\Templates\Inc\main.h
+      Source file:   MDK\Templates\Src\stm32f7xx_it.c
+
+   * Component: ::Device:STM32Cube Framework:1.0.0 (API)
+
+   * Component: Keil::Device:STM32Cube HAL:ADC:1.2.0
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_adc_ex.c
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_adc.c
+
+   * Component: Keil::Device:STM32Cube HAL:I2C:1.2.0
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_i2c_ex.c
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_i2c.c
+
+   * Component: Keil::Device:STM32Cube HAL:CAN:1.2.0
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_can.c
+
+   * Component: Keil::Device:STM32Cube HAL:GPIO:1.2.0
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_gpio.c
+
+   * Component: Keil::Device:STM32Cube HAL:RCC:1.2.0
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_rcc_ex.c
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_rcc.c
+
+   * Component: Keil::Device:STM32Cube HAL:Common:1.2.0
+      Include file:  Drivers\STM32F7xx_HAL_Driver\Inc\stm32f7xx_hal.h
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal.c
+
+   * Component: Keil::Device:STM32Cube HAL:Cortex:1.2.0
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_cortex.c
+
+   * Component: Keil::Device:STM32Cube HAL:PWR:1.2.0
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_pwr.c
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_pwr_ex.c
+
+   * Component: Keil::Device:STM32Cube HAL:DMA:1.2.0
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_dma_ex.c
+      Source file:   Drivers\STM32F7xx_HAL_Driver\Src\stm32f7xx_hal_dma.c
+
+   * Component: Keil::CMSIS Driver:CAN:1.6.0
+      Source file:   CMSIS\Driver\CAN_STM32F7xx.c
+
+   * Component: Keil.STM32F746G-Discovery::Board Support:LED:1.1.1
+      Source file:   MDK\Boards\ST\STM32F746G_Discovery\Common\LED_746G_Discovery.c
+Build Time Elapsed:  00:00:04
+</pre>
+</body>
+</html>
